@@ -1,3 +1,5 @@
+/*! sass-rem-mixin | MIT License | https://github.com/IsaacAndela/sass-rem-mixin */
+
 @function remToPx($inRem, $base: $rem) {
 	@if (unitless($inRem)) {
 		@return $inRem * $base * 1px;
