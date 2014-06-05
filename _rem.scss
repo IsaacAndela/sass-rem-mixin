@@ -1,0 +1,31 @@
+@function remToPx($inRem, $base: $rem) {
+	@if (unitless($inRem)) {
+		@return $inRem * $base * 1px;
+	} @else {
+		@return $inRem / 1rem * $base * 1px;
+	}
+}
+
+@mixin rem($propName, $propValue) {
+	$fallbackPropValue: ();
+	$newPropValue: ();
+
+	@each $subValue in $propValue {
+		@if (type-of($subValue) == number and (unit($subValue) == rem or unitless($subValue))) {
+			$fallbackPropValue: append($fallbackPropValue, remToPx($subValue));
+			$newPropValue: append($newPropValue, ($subValue + 0rem));
+		} @else {
+			$fallbackPropValue: append($fallbackPropValue, $subValue);
+			$newPropValue: append($newPropValue, $subValue);
+		}
+	}
+
+	#{$propName}: $fallbackPropValue;
+	#{$propName}: $newPropValue;
+}
+
+$rem: 10 !default;
+
+html {
+	font-size: $rem * 1px;
+}
